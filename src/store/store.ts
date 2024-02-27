@@ -3,8 +3,8 @@ import createSagaMiddleware from 'redux-saga'
 
 import roomsReducer from './roomsSlice'
 import movesReducer from './gameMoveSlice'
-import mySaga from './roomsSaga'
 import userDataReducer from './userDataSlice'
+import mainSaga from './mainSaga'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = configureStore({
@@ -17,7 +17,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware)
 })
 
-sagaMiddleware.run(mySaga)
+sagaMiddleware.run(mainSaga)
 
 export default store
 

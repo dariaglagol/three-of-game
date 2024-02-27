@@ -12,8 +12,8 @@ function* fetchRooms() {
   }
 }
 
-function* mySaga() {
+function* roomsSaga() {
   yield takeLatest('USER_FETCH_REQUESTED', fetchRooms)
 }
 
-export default mySaga
+export default roomsSaga
