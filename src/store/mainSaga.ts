@@ -1,11 +1,11 @@
-import {all, fork} from 'redux-saga/effects'
+import {all} from 'redux-saga/effects'
 import roomsSaga from './roomsSaga'
-// import {watchSocketChannel} from './usersSaga'
+import usersSaga from './usersSaga'
 
 function* rootSaga() {
   yield all([
     roomsSaga(),
-    // fork(watchSocketChannel)
+    usersSaga()
   ])
 }
 

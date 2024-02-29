@@ -1,23 +1,36 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import PlayButtons from './playButtons'
 import { useAppSelector, useAppDispatch } from '../store/hooks'
-import GameOverScreen from './gameOver'
 import {handleClick, selectLastMove, GameState, leaveRoom} from '../store/SocketSlice'
 
 const GameInterface = () => {
   const dispatch = useAppDispatch()
 
+  const [opponentName, setOpponentName] = useState<string>('CPU')
+
   const moves = useAppSelector(state => state.socket.moves)
-  const {number} = useAppSelector(state => selectLastMove(state))
   const userName = useAppSelector(state => state.socket.login)
   const isTurnActive = useAppSelector(state => state.socket.isTurnActive)
+  const {users} = useAppSelector(state => state.users)
+  const {number} = useAppSelector(state => selectLastMove(state))
+
+  useEffect(() => {
+    dispatch({type: 'USERS_FETCH_REQUESTED'})
+  }, [dispatch])
+
+  useEffect(() => {
+    if (users && users.length) {
+      const opponent = users[0].name
+      setOpponentName(opponent)
+    }
+  }, [users])
 
   const sendNumber = useCallback((value: number) => {
     dispatch(handleClick({
       number: Number(number),
       selectedNumber: value
     }))
-  }, [number])
+  }, [number, dispatch])
 
   const currentPlayerMessage = (item: any, i: number) => {
     const {user, number} = item
@@ -39,7 +52,7 @@ const GameInterface = () => {
   return (
     <div className="main-game-area">
       <div>
-        <p>You are playing with</p>
+        <p>You are playing with: {opponentName}</p>
         <button onClick={handleLeaveRoom}>Leave the room</button>
       </div>
       <div className="message-scrollable-wrapper">

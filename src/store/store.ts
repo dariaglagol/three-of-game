@@ -2,20 +2,17 @@ import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 
 import roomsReducer from './roomsSlice'
-import movesReducer from './gameMoveSlice'
-import userDataReducer from './userDataSlice'
 import mainSaga from './mainSaga'
-import socketMiddleware from "./usersSaga";
-import socketreducer from "./SocketSlice";
+import socketMiddleware from "./socketsMiddleware";
+import socketReducer from "./SocketSlice";
+import usersReducer from './usersSlice'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = configureStore({
   reducer: {
     rooms: roomsReducer,
-    moves: movesReducer,
-    userData: userDataReducer,
-    socket: socketreducer
-    // users: usersReducer
+    socket: socketReducer,
+    users: usersReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware, socketMiddleware)
 })

@@ -1,7 +1,6 @@
 import React, {ReactNode, useCallback, useEffect, useMemo} from 'react'
 
 import { useAppSelector, useAppDispatch } from './store/hooks'
-import {setUser} from './store/userDataSlice'
 import {initSocket, login, startGame} from './store/SocketSlice'
 
 import AppHeader from './consponents/appHeader'
@@ -22,15 +21,15 @@ function App() {
   useEffect(() => {
     dispatch({type: 'USER_FETCH_REQUESTED'})
     dispatch(initSocket())
-  }, [])
+  }, [dispatch])
 
   const letsPlay = useCallback(()  => {
     dispatch(startGame())
-  }, [])
+  }, [dispatch])
 
   const loginHandler = useCallback((userName: string) => {
     dispatch(login({username: userName}))
-  }, [])
+  }, [dispatch])
 
   const mainLayout = (children: ReactNode) => {
     return (
@@ -68,7 +67,7 @@ function App() {
     }
 
     return screen
-  }, [currentGameStep])
+  }, [currentGameStep, userName, letsPlay, loginHandler, mainLayout])
 
   return (
     <div className="App">

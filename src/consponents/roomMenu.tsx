@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react'
 import {RoomInterface} from '../store/roomsSlice'
-import {socket} from '../store/service'
 
 import './style.css'
 import {joinRoom} from '../store/SocketSlice'
@@ -18,7 +17,7 @@ const RoomsMenu = ({rooms}: RoomsMenuInterface) => {
         room: name,
         roomType: type
     }))
-  }, [])
+  }, [dispatch])
 
   return (
     <aside className="room-menu">
