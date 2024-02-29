@@ -1,78 +1,80 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {ReactNode, useCallback, useEffect, useMemo} from 'react'
 
 import { useAppSelector, useAppDispatch } from './store/hooks'
-import useSocket from './hooks/useSocket'
-import {socket} from './store/service'
 import {setUser} from './store/userDataSlice'
+import {initSocket, login, startGame} from './store/SocketSlice'
 
 import AppHeader from './consponents/appHeader'
 import LoginForm from './consponents/loginForm'
 import RoomsMenu from './consponents/roomMenu'
 import GameInterface from './consponents/GameInterface'
+import GameOverScreen from './consponents/gameOver'
 
 import './App.css'
 
 function App() {
   const dispatch = useAppDispatch()
 
-  const [userName, setUserName] = useState(null)
-  const [room, setRoom] = useState(null)
-  const [isGameStarted, setIsGameStarted] = useState(false)
-
   const {rooms} = useAppSelector(state => state.rooms)
-
-  useSocket()
+  const userName = useAppSelector(state => state.socket.login)
+  const currentGameStep = useAppSelector(state => state.socket.step)
 
   useEffect(() => {
     dispatch({type: 'USER_FETCH_REQUESTED'})
-  }, [])
-
-  useEffect(() => {
-    socket.on('message', (data: any) => {
-      console.log('data', data)
-      if (data.user && !userName) {
-        setUserName(data.user)
-        dispatch(setUser(data.user))
-      }
-      if (data.room) {
-        setRoom(data.room)
-      }
-    })
-
-    socket.on('error', (data: any) => {
-      console.log('error', data)
-    })
+    dispatch(initSocket())
   }, [])
 
   const letsPlay = useCallback(()  => {
-    socket.emit('letsPlay')
-    setIsGameStarted(true)
+    dispatch(startGame())
   }, [])
 
   const loginHandler = useCallback((userName: string) => {
-    socket.emit('login', {
-      username: userName
-    })
+    dispatch(login({username: userName}))
   }, [])
 
-  // @todo надо изменить верстку логически, скорее всего на step
+  const mainLayout = (children: ReactNode) => {
+    return (
+      <>
+        <RoomsMenu rooms={rooms} />
+        <div className="container">
+          {children}
+        </div>
+      </>
+    )
+  }
+
+  const getUI = useMemo(() => {
+    let screen = null
+    switch (currentGameStep) {
+      case 'login':
+        screen = <LoginForm onSubmit={loginHandler} />
+        break;
+      case 'joinRoom':
+      case 'leave':
+        screen = mainLayout(<div>
+          <p className="login-form__header">Hello, {userName}!</p>
+          <p className="login-form__header">Please, choose room for your game</p>
+        </div>)
+        break
+      case 'playPrep':
+        screen = mainLayout(<button onClick={letsPlay} className="lets-play__button">Lets play!</button>)
+        break
+      case 'play':
+        screen = <GameInterface />
+        break
+      case 'gameOver':
+        screen = <GameOverScreen />
+        break
+    }
+
+    return screen
+  }, [currentGameStep])
+
   return (
     <div className="App">
-      <AppHeader opponentName={'123456789'} />
+      <AppHeader />
       <main>
-        {!userName ? <LoginForm onSubmit={loginHandler} /> : (
-          <>
-            <RoomsMenu rooms={rooms} userName={userName} />
-            <div className="container">
-              {isGameStarted ? <GameInterface /> : room ? <button onClick={letsPlay} className="lets-play__button">Lets play!</button> : (
-                <div>
-                  <p className="login-form__header">Hello, {userName}!</p>
-                  <p className="login-form__header">Please, choose room for your game</p>
-                </div>
-              )}
-            </div>
-          </>
-        )}
+        {getUI}
       </main>
     </div>
   );

@@ -1,19 +1,15 @@
-import React, {useEffect, useState} from 'react'
-import {socket} from '../store/service'
-import {useAppSelector} from '../store/hooks'
+import React from 'react'
+
+import {useAppDispatch, useAppSelector} from '../store/hooks'
+import {leaveRoom} from '../store/SocketSlice'
 
 const GameOverScreen = () => {
-  const [winner, setWinner] = useState<string | null>(null)
-  const {userData: userName} = useAppSelector(state => state.userData)
-
-  useEffect(() => {
-    socket.on('gameOver', (data: any) => {
-      setWinner(data.user)
-    })
-  }, [])
+  const dispatch = useAppDispatch()
+  const userName = useAppSelector(state => state.socket.login)
+  const {user: winner} = useAppSelector(state => state.socket.winner)
 
   const handleLeaveClick = () => {
-    socket.emit('leaveRoom')
+    dispatch(leaveRoom())
   }
 
   const imageSrc = userName === winner ? './win.svg' : './lose.svg'

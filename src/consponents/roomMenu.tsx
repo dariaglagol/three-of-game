@@ -3,21 +3,22 @@ import {RoomInterface} from '../store/roomsSlice'
 import {socket} from '../store/service'
 
 import './style.css'
+import {joinRoom} from '../store/SocketSlice'
+import {useAppDispatch} from '../store/hooks'
 
 interface RoomsMenuInterface {
   rooms: RoomInterface[] | null
-  userName: string | null
 }
 
 // @todo: add wrapper for sockets with setted name
-const RoomsMenu = ({rooms, userName}: RoomsMenuInterface) => {
+const RoomsMenu = ({rooms}: RoomsMenuInterface) => {
+  const dispatch = useAppDispatch()
   const handleJoinRoom = useCallback(({name, type}: {name: string, type: string}) => {
-    socket.emit('joinRoom', {
-      username: userName,
-      room: name,
-      roomType: type
-    })
-  }, [userName])
+    dispatch(joinRoom({
+        room: name,
+        roomType: type
+    }))
+  }, [])
 
   return (
     <aside className="room-menu">
