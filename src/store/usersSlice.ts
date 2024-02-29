@@ -1,20 +1,20 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from './store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from './store';
 
 export interface UserInterface {
   id: string,
   name: string,
   room: string,
-  type: 'cpu' | 'human'
+  type: 'cpu' | 'human',
 }
 
 export interface UsersState {
-  users: UserInterface[] | null
+  users: UserInterface[],
 }
 
 const initialState: UsersState = {
-  users: null
-}
+  users: [],
+};
 
 export const usersSlice = createSlice({
   name: 'users',
@@ -22,12 +22,12 @@ export const usersSlice = createSlice({
   reducers: {
     setUsers: (state, action: PayloadAction<UsersState>) => {
       // @ts-ignore
-      state.users = action.payload
-    }
-  }
-})
+      state.users = [...state.users, action.payload];
+    },
+  },
+});
 
-export const {setUsers } = usersSlice.actions
-export const selectUsers = (state: RootState) => state.rooms
+export const { setUsers } = usersSlice.actions;
+export const selectUsers = (state: RootState) => state.users;
 
-export default usersSlice.reducer
+export default usersSlice.reducer;

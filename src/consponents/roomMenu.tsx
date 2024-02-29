@@ -1,23 +1,23 @@
-import React, {useCallback} from 'react'
-import {RoomInterface} from '../store/roomsSlice'
+import React, { useCallback } from 'react';
+import { RoomInterface } from '../store/roomsSlice';
 
-import './style.css'
-import {joinRoom} from '../store/SocketSlice'
-import {useAppDispatch} from '../store/hooks'
+import './style.css';
+import { joinRoom } from '../store/SocketSlice';
+import { useAppDispatch } from '../store/hooks';
 
 interface RoomsMenuInterface {
   rooms: RoomInterface[] | null
 }
 
 // @todo: add wrapper for sockets with setted name
-const RoomsMenu = ({rooms}: RoomsMenuInterface) => {
-  const dispatch = useAppDispatch()
-  const handleJoinRoom = useCallback(({name, type}: {name: string, type: string}) => {
+const RoomsMenu = ({ rooms }: RoomsMenuInterface) => {
+  const dispatch = useAppDispatch();
+  const handleJoinRoom = useCallback(({ name, type }: { name: string, type: string }) => {
     dispatch(joinRoom({
-        room: name,
-        roomType: type
-    }))
-  }, [dispatch])
+      room: name,
+      roomType: type,
+    }));
+  }, [dispatch]);
 
   return (
     <aside className="room-menu">
@@ -25,12 +25,19 @@ const RoomsMenu = ({rooms}: RoomsMenuInterface) => {
       <div className="room-menu__wrapper">
         {rooms && rooms.map((item) => {
           // @info found a bug on a BE - the same id's for rooms
-          const {owner, name, type} = item
-          return (<button key={owner} onClick={() => handleJoinRoom({name, type})}>{name}</button>)
+          const { owner, name, type } = item;
+          return (
+            <button
+              key={owner}
+              onClick={() => handleJoinRoom({ name, type })}
+            >
+              {name}
+            </button>
+          );
         })}
       </div>
     </aside>
-  )
-}
+  );
+};
 
-export default RoomsMenu
+export default RoomsMenu;

@@ -1,20 +1,20 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from './store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from './store';
 
 export interface RoomInterface {
   id: string,
   name: string,
   owner: string,
-  type: 'cpu' | 'human'
+  type: 'cpu' | 'human',
 }
 
 export interface CounterState {
-  rooms: RoomInterface[] | null
+  rooms: RoomInterface[] | null;
 }
 
 const initialState: CounterState = {
-  rooms: null
-}
+  rooms: null,
+};
 
 export const counterSlice = createSlice({
   name: 'rooms',
@@ -22,12 +22,12 @@ export const counterSlice = createSlice({
   reducers: {
     incrementByAmount: (state, action: PayloadAction<CounterState>) => {
       // @ts-ignore
-      state.rooms = action.payload
-    }
-  }
-})
+      state.rooms = action.payload;
+    },
+  },
+});
 
-export const {incrementByAmount } = counterSlice.actions
-export const selectRooms = (state: RootState) => state.rooms
+export const { incrementByAmount } = counterSlice.actions;
+export const selectRooms = (state: RootState) => state.rooms;
 
-export default counterSlice.reducer
+export default counterSlice.reducer;

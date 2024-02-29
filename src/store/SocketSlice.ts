@@ -1,19 +1,19 @@
 // Slice of store that manages Socket connections
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 enum GameStep {
-  Login = "login",
-  JoinRoom = "joinRoom",
+  Login = 'login',
+  JoinRoom = 'joinRoom',
   PlayPrep = 'playPrep',
-  Play = "play",
-  Leave = "leave",
-  GameOver = 'gameOver'
+  Play = 'play',
+  Leave = 'leave',
+  GameOver = 'gameOver',
 }
 
 export enum GameState {
-  WAIT = "wait",
-  PLAY = "play",
+  WAIT = 'wait',
+  PLAY = 'play',
 }
 
 export interface SocketState {
@@ -36,8 +36,8 @@ const initialState: SocketState = {
   moves: [],
   isTurnActive: GameState.PLAY,
   winner: {
-    user: null
-  }
+    user: null,
+  },
 };
 
 type LoginAction = PayloadAction<{
@@ -55,7 +55,7 @@ export type GameMove = {
   number: number | string
   selectedNumber: number
   user: string
-}
+};
 
 export type GameMovePayload = PayloadAction<{
   isCorrectResult: boolean
@@ -63,24 +63,24 @@ export type GameMovePayload = PayloadAction<{
   number: number | string
   selectedNumber: number
   user: string
-}>
+}>;
 
 export type Tui = PayloadAction<{
   number: number,
   selectedNumber: number
-}>
+}>;
 
 export type GameOverPayload = PayloadAction<{
   user: string
-}>
+}>;
 
-// Now create the slice
+/* eslint-disable no-param-reassign */
 const socketSlice = createSlice({
-  name: "socket",
+  name: 'socket',
   initialState,
   // Reducers: Functions we can call on the store
   reducers: {
-    initSocket: (state) => {},
+    initSocket: () => {},
     connectionEstablished: (state) => {
       state.isConnected = true;
     },
@@ -88,45 +88,45 @@ const socketSlice = createSlice({
       state.isConnected = false;
     },
     login: (state, action: LoginAction) => {
-      let {username} = action.payload;
+      const { username } = action.payload;
       state.login = username;
-      state.step = GameStep.JoinRoom
+      state.step = GameStep.JoinRoom;
     },
     joinRoom: (state, action: JoinRoomAction) => {
-      let {room} = action.payload;
+      const { room } = action.payload;
       state.room = room;
-      state.step = GameStep.PlayPrep
+      state.step = GameStep.PlayPrep;
     },
     startGame: (state) => {
-      state.step = GameStep.Play
+      state.step = GameStep.Play;
     },
     setGameMove: (state, action: GameMovePayload) => {
       const move = action.payload;
       // @ts-ignore
-      state.moves = [...state.moves, move]
+      state.moves = [...state.moves, move];
     },
     handleClick: (state, action: Tui) => {},
     activateTurn: (state, action) => {
-      state.isTurnActive = action.payload.state
+      state.isTurnActive = action.payload.state;
     },
     leaveRoom: (state) => {
-      state.step = GameStep.Leave
+      state.step = GameStep.Leave;
     },
     gameOver: (state, action: GameOverPayload) => {
-      const data = action.payload
-      console.log('data', data)
+      const data = action.payload;
       state.winner = {
-        user: data.user
-      }
-      state.step = GameStep.GameOver
-    }
+        user: data.user,
+      };
+      state.step = GameStep.GameOver;
+    },
   },
   selectors: {
-    selectLastMove: (state) => state.moves[state.moves.length - 1] || {}
-  }
+    selectLastMove: (state) => state.moves[state.moves.length - 1] || {},
+  },
 });
+/* eslint-enable no-param-reassign */
 
-export const { selectLastMove } = socketSlice.selectors
+export const { selectLastMove } = socketSlice.selectors;
 
 // Don't have to define actions, they are automatically generated
 export const {
@@ -140,7 +140,7 @@ export const {
   handleClick,
   activateTurn,
   leaveRoom,
-  gameOver
+  gameOver,
 } = socketSlice.actions;
 // Export the reducer for this slice
 export default socketSlice.reducer;

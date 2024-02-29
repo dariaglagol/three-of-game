@@ -1,16 +1,15 @@
-import React from 'react'
+import React from 'react';
 // @ts-ignore
-import './style.css'
+import './style.css';
 
-const USER_POSSIBLE_INPUTS = [-1, 0, 1]
+const USER_POSSIBLE_INPUTS = [-1, 0, 1];
 
 const PlayButtons = (props: any) => {
-  const {onPlayBtnClick, disabled} = props
+  const { onPlayBtnClick, disabled } = props;
 
   return (
     <div className='button-wrapper'>
-      {USER_POSSIBLE_INPUTS.map(item => {
-        return (
+      {USER_POSSIBLE_INPUTS.map((item) => (
           <button
             key={item}
             onClick={() => onPlayBtnClick(item)}
@@ -19,11 +18,10 @@ const PlayButtons = (props: any) => {
           >
             {item}
           </button>
-        )}
-      )}
+      ))}
     </div>
 
-  )
-}
+  );
+};
 
-export default PlayButtons
+export default PlayButtons;

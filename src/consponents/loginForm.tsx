@@ -1,20 +1,18 @@
-import React from 'react'
-import {useDispatch} from 'react-redux'
+import React from 'react';
 
 type LoginFormType = {
   onSubmit: Function
-}
+};
 
-const LoginForm = ({onSubmit}: LoginFormType) => {
-  const dispatch = useDispatch()
+const LoginForm = ({ onSubmit }: LoginFormType) => {
   // @ts-ignore
   const handleInputChange = (event: any) => {
-    event.preventDefault()
+    event.preventDefault();
     const formData = new FormData(event.target);
     const formProps = Object.fromEntries(formData);
     // @ts-ignore
-    onSubmit(formProps.userName)
-  }
+    onSubmit(formProps.userName);
+  };
 
   return (
     <div className="login-form">
@@ -24,7 +22,7 @@ const LoginForm = ({onSubmit}: LoginFormType) => {
         <button type="submit" className="login-form__button">Sign in</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;

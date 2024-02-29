@@ -1,19 +1,19 @@
-import React from 'react'
+import React from 'react';
 
-import {useAppDispatch, useAppSelector} from '../store/hooks'
-import {leaveRoom} from '../store/SocketSlice'
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { leaveRoom } from '../store/SocketSlice';
 
 const GameOverScreen = () => {
-  const dispatch = useAppDispatch()
-  const userName = useAppSelector(state => state.socket.login)
-  const {user: winner} = useAppSelector(state => state.socket.winner)
+  const dispatch = useAppDispatch();
+  const userName = useAppSelector((state) => state.socket.login);
+  const { user: winner } = useAppSelector((state) => state.socket.winner);
 
   const handleLeaveClick = () => {
-    dispatch(leaveRoom())
-  }
+    dispatch(leaveRoom());
+  };
 
-  const imageSrc = userName === winner ? './win.svg' : './lose.svg'
-  const altText =  userName === winner ? 'Congratulations! You won!' : 'Sorry, you lost the game'
+  const imageSrc = userName === winner ? './win.svg' : './lose.svg';
+  const altText = userName === winner ? 'Congratulations! You won!' : 'Sorry, you lost the game';
 
   return winner ? (
     <div className="game-over">
@@ -22,7 +22,7 @@ const GameOverScreen = () => {
       <p>Winner is {winner}</p>
       <button onClick={handleLeaveClick}>Leave the room</button>
     </div>
-  ) : null
-}
+  ) : null;
+};
 
-export default GameOverScreen
+export default GameOverScreen;
