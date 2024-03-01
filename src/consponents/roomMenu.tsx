@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
-import { RoomInterface } from '../store/roomsSlice';
+import { RoomInterface } from '../slices/roomsSlice';
 
 import './style.css';
-import { joinRoom } from '../store/SocketSlice';
+import { joinRoom } from '../slices/SocketSlice';
 import { useAppDispatch } from '../store/hooks';
 
 interface RoomsMenuInterface {

@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 
-import roomsReducer from './roomsSlice';
-import mainSaga from './mainSaga';
+import roomsReducer from '../slices/roomsSlice';
+import mainSaga from '../sagas/mainSaga';
 import socketMiddleware from './socketsMiddleware';
-import socketReducer from './SocketSlice';
-import usersReducer from './usersSlice';
+import socketReducer from '../slices/SocketSlice';
+import usersReducer from '../slices/usersSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({

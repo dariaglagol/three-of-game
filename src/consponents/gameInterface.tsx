@@ -3,8 +3,8 @@ import PlayButtons from './playButtons';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import {
   handleClick, selectLastMove, GameState, leaveRoom,
-} from '../store/SocketSlice';
-import { selectUsers } from '../store/usersSlice';
+} from '../slices/SocketSlice';
+import { selectUsers } from '../slices/usersSlice';
 
 const GameInterface = () => {
   const dispatch = useAppDispatch();

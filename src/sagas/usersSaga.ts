@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { getUsers } from './service';
-import { setUsers } from './usersSlice';
+import { getUsers } from '../services/service';
+import { setUsers } from '../slices/usersSlice';
 
 function* fetchUsers() {
   try {

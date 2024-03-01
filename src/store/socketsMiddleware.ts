@@ -11,7 +11,7 @@ import {
   handleClick,
   activateTurn,
   gameOver,
-} from './SocketSlice';
+} from '../slices/SocketSlice';
 import SocketFactory from './SocketFactory';
 
 // import type { SocketInterface } from './SocketFactory';

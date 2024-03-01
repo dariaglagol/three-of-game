@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { getRooms } from './service';
-import { incrementByAmount } from './roomsSlice';
+import { getRooms } from '../services/service';
+import { incrementByAmount } from '../slices/roomsSlice';
 
 function* fetchRooms() {
   try {
