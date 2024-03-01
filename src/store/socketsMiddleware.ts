@@ -55,7 +55,6 @@ const socketMiddleware: Middleware = (store) => {
           console.log(message);
         });
 
-        // Handle disconnect event
         socket.socket.on(SocketEvent.Disconnect, () => {
           store.dispatch(connectionLost());
         });

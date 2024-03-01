@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import roomsReducer from '../slices/roomsSlice';
 import mainSaga from '../sagas/mainSaga';
 import socketMiddleware from './socketsMiddleware';
-import socketReducer from '../slices/SocketSlice';
+import socketReducer from '../slices/socketSlice';
 import usersReducer from '../slices/usersSlice';
 
 const sagaMiddleware = createSagaMiddleware();
