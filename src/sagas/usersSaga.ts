@@ -1,14 +1,13 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { getUsers } from '../services/service';
-import { setUsers } from '../slices/usersSlice';
+import { setUsers, UserInterface } from '../slices/usersSlice';
 
 function* fetchUsers() {
   try {
-    // @ts-ignore
-    const users = yield call(getUsers);
+    const users: UserInterface[] = yield call(getUsers);
     yield put(setUsers(users));
   } catch (e) {
-    // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
+    console.log('fetchUsers error', e);
   }
 }
 

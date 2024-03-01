@@ -8,28 +8,27 @@ export interface RoomInterface {
   type: 'cpu' | 'human',
 }
 
-export interface CounterState {
+export interface RoomsState {
   rooms: RoomInterface[] | null;
 }
 
-const initialState: CounterState = {
+const initialState: RoomsState = {
   rooms: null,
 };
 
 /* eslint-disable no-param-reassign */
-export const counterSlice = createSlice({
+export const roomsSlice = createSlice({
   name: 'rooms',
   initialState,
   reducers: {
-    incrementByAmount: (state, action: PayloadAction<CounterState>) => {
-      // @ts-ignore
+    updateRooms: (state, action: PayloadAction<RoomInterface[]>) => {
       state.rooms = action.payload;
     },
   },
 });
 /* eslint-enable no-param-reassign */
 
-export const { incrementByAmount } = counterSlice.actions;
+export const { updateRooms } = roomsSlice.actions;
 export const selectRooms = (state: RootState) => state.rooms;
 
-export default counterSlice.reducer;
+export default roomsSlice.reducer;

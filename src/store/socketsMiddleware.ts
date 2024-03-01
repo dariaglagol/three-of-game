@@ -8,13 +8,17 @@ import {
   login,
   startGame,
   setGameMove,
-  handleClick,
   activateTurn,
   gameOver,
+  sendNumber,
 } from '../slices/SocketSlice';
 import SocketFactory from './SocketFactory';
-
-// import type { SocketInterface } from './SocketFactory';
+import {
+  GameMove as GameOverType,
+  GameOver,
+  GameState,
+  Message as MessageType,
+} from '../types';
 
 enum SocketEvent {
   Connect = 'connect',
@@ -43,12 +47,11 @@ const socketMiddleware: Middleware = (store) => {
           store.dispatch(connectionEstablished());
         });
 
-        socket.socket.on(SocketEvent.Error, (message: any) => {
-          console.error(message);
+        socket.socket.on(SocketEvent.Error, (error: { message: string }) => {
+          console.error(error);
         });
 
-        // handle all Error events
-        socket.socket.on(SocketEvent.Message, (message: any) => {
+        socket.socket.on(SocketEvent.Message, (message: MessageType) => {
           console.log(message);
         });
 
@@ -72,18 +75,18 @@ const socketMiddleware: Middleware = (store) => {
 
     if (startGame.match(action) && socket) {
       socket.socket.emit(SocketEvent.LetsPlay);
-      socket.socket.on(SocketEvent.RandomNumber, (data: any) => {
+      socket.socket.on(SocketEvent.RandomNumber, (data: GameOverType) => {
         store.dispatch(setGameMove(data));
       });
-      socket.socket.on(SocketEvent.ActivateYourTurn, (data: any) => {
+      socket.socket.on(SocketEvent.ActivateYourTurn, (data: { state: GameState }) => {
         store.dispatch(activateTurn(data));
       });
-      socket.socket.on(SocketEvent.GameOver, (data: any) => {
+      socket.socket.on(SocketEvent.GameOver, (data: GameOver) => {
         store.dispatch(gameOver(data));
       });
     }
 
-    if (handleClick.match(action) && socket) {
+    if (sendNumber.match(action) && socket) {
       socket.socket.emit(SocketEvent.SendNumber, action.payload);
     }
 

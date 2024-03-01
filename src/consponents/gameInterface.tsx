@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PlayButtons from './playButtons';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import {
-  handleClick, selectLastMove, GameState, leaveRoom,
+  selectLastMove, sendNumber, leaveRoom,
 } from '../slices/SocketSlice';
 import { selectUsers } from '../slices/usersSlice';
+import { GameState, GameMove } from '../types';
 
 const GameInterface = () => {
   const dispatch = useAppDispatch();
@@ -28,14 +29,14 @@ const GameInterface = () => {
     }
   }, [users]);
 
-  const sendNumber = useCallback((value: number) => {
-    dispatch(handleClick({
+  const handleSendNumberClick = useCallback((value: number) => {
+    dispatch(sendNumber({
       number: Number(number),
       selectedNumber: value,
     }));
   }, [number, dispatch]);
 
-  const currentPlayerMessage = (item: any, i: number) => {
+  const currentPlayerMessage = (item: GameMove, i: number) => {
     const { user, number: itemNumber } = item;
     const abbreviation = (user && user[0]) || 'C';
 
@@ -66,7 +67,10 @@ const GameInterface = () => {
         </div>
       </div>
 
-      <PlayButtons onPlayBtnClick={ sendNumber } disabled={ isTurnActive === GameState.WAIT } />
+      <PlayButtons
+        onPlayBtnClick={ handleSendNumberClick }
+        disabled={ isTurnActive === GameState.WAIT }
+      />
     </div>
   );
 };

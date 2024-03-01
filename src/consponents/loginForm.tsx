@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 
 type LoginFormType = {
   onSubmit: Function
 };
 
 const LoginForm = ({ onSubmit }: LoginFormType) => {
-  // @ts-ignore
-  const handleInputChange = (event: any) => {
+  const handleInputChange = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    const formData = new FormData(event.target as HTMLFormElement);
     const formProps = Object.fromEntries(formData);
-    // @ts-ignore
     onSubmit(formProps.userName);
   };
 

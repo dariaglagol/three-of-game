@@ -1,32 +1,15 @@
-// Slice of store that manages Socket connections
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit'
 
-enum GameStep {
-  Login = 'login',
-  JoinRoom = 'joinRoom',
-  PlayPrep = 'playPrep',
-  Play = 'play',
-  Leave = 'leave',
-  GameOver = 'gameOver',
-}
-
-export enum GameState {
-  WAIT = 'wait',
-  PLAY = 'play',
-}
-
-export interface SocketState {
-  isConnected: boolean;
-  step: GameStep;
-  room: string | null;
-  login: string | null;
-  moves: GameMove[];
-  isTurnActive: GameState;
-  winner: {
-    user: string | null;
-  }
-}
+import {
+  LoginAction,
+  GameState,
+  SocketState,
+  GameStep,
+  GameMovePayload,
+  GameOver,
+  SendNumberPayload,
+  JoinRoomAction,
+} from '../types';
 
 const initialState: SocketState = {
   isConnected: false,
@@ -39,40 +22,6 @@ const initialState: SocketState = {
     user: null,
   },
 };
-
-type LoginAction = PayloadAction<{
-  username: string;
-}>;
-
-type JoinRoomAction = PayloadAction<{
-  room: string;
-  roomType: string;
-}>;
-
-export type GameMove = {
-  isCorrectResult: boolean
-  isFirst: boolean
-  number: number | string
-  selectedNumber: number
-  user: string
-};
-
-export type GameMovePayload = PayloadAction<{
-  isCorrectResult: boolean
-  isFirst: boolean
-  number: number | string
-  selectedNumber: number
-  user: string
-}>;
-
-export type Tui = PayloadAction<{
-  number: number,
-  selectedNumber: number
-}>;
-
-export type GameOverPayload = PayloadAction<{
-  user: string
-}>;
 
 /* eslint-disable no-param-reassign */
 const socketSlice = createSlice({
@@ -102,12 +51,10 @@ const socketSlice = createSlice({
     },
     setGameMove: (state, action: GameMovePayload) => {
       const move = action.payload;
-      console.log('move', move);
-      // @ts-ignore
       state.moves = [...state.moves, move];
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    handleClick: (state, action: Tui) => {},
+    sendNumber: (state, action: SendNumberPayload) => {},
     activateTurn: (state, action) => {
       state.isTurnActive = action.payload.state;
     },
@@ -115,7 +62,7 @@ const socketSlice = createSlice({
       state.step = GameStep.Leave;
       state.moves = [];
     },
-    gameOver: (state, action: GameOverPayload) => {
+    gameOver: (state, action: PayloadAction<GameOver>) => {
       const data = action.payload;
       state.winner = {
         user: data.user,
@@ -141,7 +88,7 @@ export const {
   login,
   startGame,
   setGameMove,
-  handleClick,
+  sendNumber,
   activateTurn,
   leaveRoom,
   gameOver,

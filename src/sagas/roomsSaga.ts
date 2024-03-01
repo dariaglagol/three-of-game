@@ -1,14 +1,13 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { getRooms } from '../services/service';
-import { incrementByAmount } from '../slices/roomsSlice';
+import { RoomInterface, updateRooms } from '../slices/roomsSlice';
 
 function* fetchRooms() {
   try {
-    // @ts-ignore
-    const rooms = yield call(getRooms);
-    yield put(incrementByAmount(rooms));
+    const rooms: RoomInterface[] = yield call(getRooms);
+    yield put(updateRooms(rooms));
   } catch (e) {
-    // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
+    console.log('fetchRooms error', e);
   }
 }
 

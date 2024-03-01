@@ -11,7 +11,7 @@ import { initSocket, login, startGame } from './slices/SocketSlice';
 import AppHeader from './consponents/appHeader';
 import LoginForm from './consponents/loginForm';
 import RoomsMenu from './consponents/roomMenu';
-import GameInterface from './consponents/GameInterface';
+import GameInterface from './consponents/gameInterface';
 import GameOverScreen from './consponents/gameOver';
 
 import './App.css';

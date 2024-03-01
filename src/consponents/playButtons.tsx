@@ -1,10 +1,14 @@
 import React from 'react';
-// @ts-ignore
 import './style.css';
 
 const USER_POSSIBLE_INPUTS = [-1, 0, 1];
 
-const PlayButtons = (props: any) => {
+type PlayButtonsProps = {
+  onPlayBtnClick: (item: number) => void,
+  disabled: boolean,
+};
+
+const PlayButtons = (props: PlayButtonsProps) => {
   const { onPlayBtnClick, disabled } = props;
 
   return (
@@ -20,7 +24,6 @@ const PlayButtons = (props: any) => {
           </button>
       ))}
     </div>
-
   );
 };
 
