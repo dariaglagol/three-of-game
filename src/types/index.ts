@@ -17,13 +17,17 @@ export enum GameState {
 export interface SocketState {
   isConnected: boolean;
   step: GameStep;
-  room: string | null;
+  room: {
+    name: string | null;
+    type: 'human' | 'cpu'
+  } | null;
   login: string | null;
   moves: GameMove[];
-  isTurnActive: GameState;
+  activeTurn: GameState;
   winner: {
     user: string | null;
-  }
+  };
+  id: string | null;
 }
 
 export type LoginAction = PayloadAction<{
@@ -32,7 +36,7 @@ export type LoginAction = PayloadAction<{
 
 export type JoinRoomAction = PayloadAction<{
   room: string;
-  roomType: string;
+  roomType: 'human' | 'cpu';
 }>;
 
 export type GameMove = {
@@ -63,5 +67,6 @@ export type GameOver = {
 export type Message = {
   user: string,
   message: string,
-  room: string
+  room: string,
+  socketId?: string
 };

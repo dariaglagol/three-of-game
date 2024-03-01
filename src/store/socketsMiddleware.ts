@@ -11,6 +11,8 @@ import {
   activateTurn,
   gameOver,
   sendNumber,
+  waitForPlayer,
+  setUserSocketId,
 } from '../slices/socketSlice';
 import SocketFactory from './socketFactory';
 import {
@@ -53,6 +55,16 @@ const socketMiddleware: Middleware = (store) => {
 
         socket.socket.on(SocketEvent.Message, (message: MessageType) => {
           console.log(message);
+          // check if user is joining to room.
+          // Better will be to add possibility to broadcast
+          // event from the BE after new user joined.
+          if (message.message.indexOf('has') > -1) {
+            store.dispatch(waitForPlayer());
+          }
+
+          if (!store.getState().socket.id && message.socketId) {
+            store.dispatch(setUserSocketId(message.socketId));
+          }
         });
 
         socket.socket.on(SocketEvent.Disconnect, () => {
@@ -70,10 +82,22 @@ const socketMiddleware: Middleware = (store) => {
       const room = action.payload;
       const username = store.getState().socket.login;
       socket.socket.emit(SocketEvent.JoinRoom, { ...room, username });
+      socket.socket.on('onReady', () => {
+        if (room.roomType === 'human') {
+          store.dispatch(startGame());
+        }
+      });
+    }
+
+    if (waitForPlayer.match(action)) {
+      const { type } = store.getState().socket.room;
+      socket.socket.emit(SocketEvent.LetsPlay);
+      if (type === 'cpu') {
+        store.dispatch(startGame());
+      }
     }
 
     if (startGame.match(action) && socket) {
-      socket.socket.emit(SocketEvent.LetsPlay);
       socket.socket.on(SocketEvent.RandomNumber, (data: GameMove) => {
         store.dispatch(setGameMove(data));
       });

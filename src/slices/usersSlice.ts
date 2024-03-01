@@ -22,8 +22,7 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {
     setUsers: (state, action: PayloadAction<UserInterface[]>) => {
-      const user = action.payload;
-      state.users = [...state.users, ...user];
+      state.users = action.payload;
     },
   },
 });

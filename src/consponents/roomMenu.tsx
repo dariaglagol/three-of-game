@@ -12,7 +12,7 @@ interface RoomsMenuInterface {
 // @todo: add wrapper for sockets with setted name
 const RoomsMenu = ({ rooms }: RoomsMenuInterface) => {
   const dispatch = useAppDispatch();
-  const handleJoinRoom = useCallback(({ name, type }: { name: string, type: string }) => {
+  const handleJoinRoom = useCallback(({ name, type }: { name: string, type: 'human' | 'cpu' }) => {
     dispatch(joinRoom({
       room: name,
       roomType: type,

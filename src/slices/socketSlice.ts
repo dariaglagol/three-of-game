@@ -1,23 +1,24 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import {
-  LoginAction,
-  GameState,
-  SocketState,
-  GameStep,
   GameMovePayload,
   GameOver,
-  SendNumberPayload,
+  GameState,
+  GameStep,
   JoinRoomAction,
+  LoginAction,
+  SendNumberPayload,
+  SocketState,
 } from '../types';
 
 const initialState: SocketState = {
   isConnected: false,
   step: GameStep.Login,
   login: null,
+  id: null,
   room: null,
   moves: [],
-  isTurnActive: GameState.PLAY,
+  activeTurn: GameState.PLAY,
   winner: {
     user: null,
   },
@@ -42,10 +43,18 @@ const socketSlice = createSlice({
       state.step = GameStep.JoinRoom;
     },
     joinRoom: (state, action: JoinRoomAction) => {
-      const { room } = action.payload;
-      state.room = room;
+      const { room, roomType } = action.payload;
+      console.log('joinRoom');
+      state.room = {
+        name: room,
+        type: roomType,
+      };
       state.step = GameStep.PlayPrep;
     },
+    setUserSocketId: (state, action: PayloadAction<string>) => {
+      state.id = action.payload;
+    },
+    waitForPlayer: () => {},
     startGame: (state) => {
       state.step = GameStep.Play;
     },
@@ -54,13 +63,21 @@ const socketSlice = createSlice({
       state.moves = [...state.moves, move];
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    sendNumber: (state, action: SendNumberPayload) => {},
+    sendNumber: (state, action: SendNumberPayload) => {
+      state.activeTurn = GameState.WAIT;
+    },
     activateTurn: (state, action) => {
-      state.isTurnActive = action.payload.state;
+      if (action.payload.user === state.id) {
+        state.activeTurn = action.payload.state;
+      } else {
+        state.activeTurn = action.payload.state === GameState.PLAY
+          ? GameState.WAIT : GameState.PLAY;
+      }
     },
     leaveRoom: (state) => {
       state.step = GameStep.Leave;
       state.moves = [];
+      state.room = null;
     },
     gameOver: (state, action: PayloadAction<GameOver>) => {
       const data = action.payload;
@@ -92,6 +109,8 @@ export const {
   activateTurn,
   leaveRoom,
   gameOver,
+  waitForPlayer,
+  setUserSocketId,
 } = socketSlice.actions;
 // Export the reducer for this slice
 export default socketSlice.reducer;

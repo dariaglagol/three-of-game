@@ -14,7 +14,7 @@ const GameInterface = () => {
 
   const moves = useAppSelector((state) => state.socket.moves);
   const userName = useAppSelector((state) => state.socket.login);
-  const isTurnActive = useAppSelector((state) => state.socket.isTurnActive);
+  const activeTurn = useAppSelector((state) => state.socket.activeTurn);
   const { users } = useAppSelector((state) => selectUsers(state));
   const { number } = useAppSelector((state) => selectLastMove(state));
 
@@ -24,7 +24,7 @@ const GameInterface = () => {
 
   useEffect(() => {
     if (users && users.length) {
-      const opponent = users.filter((user) => user.name !== userName)[0].name;
+      const opponent = users.filter((user) => user.name !== userName)[0]?.name || 'CPU';
       setOpponentName(opponent);
     }
   }, [users]);
@@ -69,7 +69,7 @@ const GameInterface = () => {
 
       <PlayButtons
         onPlayBtnClick={ handleSendNumberClick }
-        disabled={ isTurnActive === GameState.WAIT }
+        disabled={ activeTurn === GameState.WAIT }
       />
     </div>
   );

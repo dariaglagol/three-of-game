@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 
 import { useAppSelector, useAppDispatch } from './store/hooks';
-import { initSocket, login, startGame } from './slices/socketSlice';
+import { initSocket, login, waitForPlayer } from './slices/socketSlice';
 
 import AppHeader from './consponents/appHeader';
 import LoginForm from './consponents/loginForm';
@@ -22,6 +22,7 @@ function App() {
   const { rooms } = useAppSelector((state) => state.rooms);
   const userName = useAppSelector((state) => state.socket.login);
   const currentGameStep = useAppSelector((state) => state.socket.step);
+  const currentRoom = useAppSelector((state) => state.socket.room);
 
   useEffect(() => {
     dispatch({ type: 'ROOMS_FETCH_REQUESTED' });
@@ -29,7 +30,7 @@ function App() {
   }, [dispatch]);
 
   const letsPlay = useCallback(() => {
-    dispatch(startGame());
+    dispatch(waitForPlayer());
   }, [dispatch]);
 
   const loginHandler = useCallback((user: string) => {
@@ -56,6 +57,10 @@ function App() {
         </div>);
         break;
       case 'playPrep':
+        if (currentRoom && currentRoom.type === 'human') {
+          screen = mainLayout(<span>Please wait for your competitor</span>);
+          break;
+        }
         screen = mainLayout(<button onClick={ letsPlay } className="lets-play__button button">Lets play!</button>);
         break;
       case 'play':
@@ -71,7 +76,7 @@ function App() {
     }
 
     return screen;
-  }, [currentGameStep, userName, letsPlay, loginHandler, mainLayout]);
+  }, [currentGameStep, userName, letsPlay, loginHandler, mainLayout, currentRoom]);
 
   return (
     <div className="App">
