@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 
 import { useAppSelector, useAppDispatch } from './store/hooks';
-import { initSocket, login, startGame } from './slices/SocketSlice';
+import { initSocket, login, startGame } from './slices/socketSlice';
 
 import AppHeader from './consponents/appHeader';
 import LoginForm from './consponents/loginForm';

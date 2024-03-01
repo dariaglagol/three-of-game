@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { leaveRoom } from '../slices/SocketSlice';
+import { leaveRoom } from '../slices/socketSlice';
 
 const GameOverScreen = () => {
   const dispatch = useAppDispatch();

@@ -11,11 +11,11 @@ import {
   activateTurn,
   gameOver,
   sendNumber,
-} from '../slices/SocketSlice';
-import SocketFactory from './SocketFactory';
+} from '../slices/socketSlice';
+import SocketFactory from './socketFactory';
 import {
-  GameMove as GameOverType,
-  GameOver,
+  GameMove,
+  GameOver as GameOverType,
   GameState,
   Message as MessageType,
 } from '../types';
@@ -75,13 +75,13 @@ const socketMiddleware: Middleware = (store) => {
 
     if (startGame.match(action) && socket) {
       socket.socket.emit(SocketEvent.LetsPlay);
-      socket.socket.on(SocketEvent.RandomNumber, (data: GameOverType) => {
+      socket.socket.on(SocketEvent.RandomNumber, (data: GameMove) => {
         store.dispatch(setGameMove(data));
       });
       socket.socket.on(SocketEvent.ActivateYourTurn, (data: { state: GameState }) => {
         store.dispatch(activateTurn(data));
       });
-      socket.socket.on(SocketEvent.GameOver, (data: GameOver) => {
+      socket.socket.on(SocketEvent.GameOver, (data: GameOverType) => {
         store.dispatch(gameOver(data));
       });
     }

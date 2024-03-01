@@ -3,7 +3,7 @@ import PlayButtons from './playButtons';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import {
   selectLastMove, sendNumber, leaveRoom,
-} from '../slices/SocketSlice';
+} from '../slices/socketSlice';
 import { selectUsers } from '../slices/usersSlice';
 import { GameState, GameMove } from '../types';
 
@@ -24,7 +24,7 @@ const GameInterface = () => {
 
   useEffect(() => {
     if (users && users.length) {
-      const opponent = users[0].name;
+      const opponent = users.filter((user) => user.name !== userName)[0].name;
       setOpponentName(opponent);
     }
   }, [users]);

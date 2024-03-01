@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { RoomInterface } from '../slices/roomsSlice';
 
 import './style.css';
-import { joinRoom } from '../slices/SocketSlice';
+import { joinRoom } from '../slices/socketSlice';
 import { useAppDispatch } from '../store/hooks';
 
 interface RoomsMenuInterface {
