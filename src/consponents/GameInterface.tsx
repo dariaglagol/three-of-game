@@ -37,12 +37,12 @@ const GameInterface = () => {
 
   const currentPlayerMessage = (item: any, i: number) => {
     const { user, number: itemNumber } = item;
+    const abbreviation = (user && user[0]) || 'C';
 
     const classNameValue = `message${user !== userName ? ' message--reverted' : ''}`;
-    // добавить аватар первому ходу
     return (
       <div className={classNameValue} key={i}>
-        <span className="message__avatar">{user && user[0]}</span>
+        <span className="message__avatar">{abbreviation}</span>
         <p className="message__content">New number: {itemNumber}</p>
       </div>
     );
@@ -54,9 +54,9 @@ const GameInterface = () => {
 
   return (
     <div className="main-game-area">
-      <div>
+      <div className="main-game-area__info">
         <p>You are playing with: { opponentName }</p>
-        <button onClick={ handleLeaveRoom }>Leave the room</button>
+        <button onClick={ handleLeaveRoom } className="button">Leave the room</button>
       </div>
       <div className="message-scrollable-wrapper">
         <div className="message-wrapper">

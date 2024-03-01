@@ -102,21 +102,25 @@ const socketSlice = createSlice({
     },
     setGameMove: (state, action: GameMovePayload) => {
       const move = action.payload;
+      console.log('move', move);
       // @ts-ignore
       state.moves = [...state.moves, move];
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     handleClick: (state, action: Tui) => {},
     activateTurn: (state, action) => {
       state.isTurnActive = action.payload.state;
     },
     leaveRoom: (state) => {
       state.step = GameStep.Leave;
+      state.moves = [];
     },
     gameOver: (state, action: GameOverPayload) => {
       const data = action.payload;
       state.winner = {
         user: data.user,
       };
+      state.moves = [];
       state.step = GameStep.GameOver;
     },
   },

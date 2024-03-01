@@ -1,4 +1,4 @@
-.button-wrapper {
+.play-button-wrapper {
     width: 200px;
     display: flex;
     justify-content: space-between;
@@ -6,30 +6,19 @@
     padding-top: 30px;
 }
 
-.button {
+.play-button {
     flex: 0 0 56px;
     padding: 16px 18px;
     border: none;
     font-size: 18px;
     line-height: 20px;
-    font-weight: 700;
-    color: var(--main-active-color);
-    background: #fff;
     border-radius: 100%;
     box-shadow: 0px 1px 8px 0px rgba(29, 33, 55, 0.12),
                 0px 3px 4px 0px rgba(29, 33, 55, 0.14),
                 0px 3px 3px 0px rgba(29, 33, 55, 0.12);
-    transition: background-color 0.2s, color 0.2s;
 }
 
-.button:hover {
-    background: var(--main-active-color);
-    color: white;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-
-.button:disabled {
+.play-button:disabled {
     cursor: progress;
     color: darkgray;
 }
@@ -134,37 +123,19 @@
     margin-bottom: 10px;
 }
 
-.login-form__button {
-    padding: 10px 15px;
-    font-weight: 700;
-    border: 1px solid var(--main-active-color);
-    background: white;
-    color: var(--main-active-color);
-    transition: background-color ease-out 0.2s, color ease-out 0.2s;
-}
-
-/*@todo вот это можно вынести в класс отдельный*/
-
-.login-form__button:active,
-.login-form__button:hover {
-    background: var(--main-active-color);
-    color: white;
-    transition: background-color ease-out 0.2s, color ease-out 0.2s;
-}
-
 .main-game-area {
     width: 100%;
     max-width: 400px;
 }
 
 .message-scrollable-wrapper {
-    height: calc(100% - 160px);
+    height: calc(100% - 190px);
     width: 100%;
     padding: 5px;
 }
 
 .message-wrapper {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 100%;
     display: flex;
     flex-direction: column-reverse;
@@ -194,7 +165,7 @@
 .message__content {
     padding: 10px 15px;
     background: #f8f5f2;
-    box-shadow: 0px 1px 8px 0px rgba(29, 33, 55, 0.12),
+    box-shadow: 0px 1px 8px 0px rgba(29, 33, 55, 0.12);
 }
 
 .game-over {
@@ -242,4 +213,10 @@
     color: var(--main-active-color);
     background: white;
     transition: background-color ease-out 0.2s, color ease-out 0.2s;
+}
+
+.main-game-area__info {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
 }

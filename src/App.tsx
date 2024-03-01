@@ -56,7 +56,7 @@ function App() {
         </div>);
         break;
       case 'playPrep':
-        screen = mainLayout(<button onClick={ letsPlay } className="lets-play__button">Lets play!</button>);
+        screen = mainLayout(<button onClick={ letsPlay } className="lets-play__button button">Lets play!</button>);
         break;
       case 'play':
         screen = <GameInterface />;

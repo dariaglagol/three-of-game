@@ -19,7 +19,7 @@ const LoginForm = ({ onSubmit }: LoginFormType) => {
       <h3 className="login-form__header">Sign in</h3>
       <form onSubmit={handleInputChange} className="login-form__wrapper">
         <input type="text" name="userName" required className="login-form__input"/>
-        <button type="submit" className="login-form__button">Sign in</button>
+        <button type="submit" className="login-form__button button">Sign in</button>
       </form>
     </div>
   );

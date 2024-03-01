@@ -31,3 +31,19 @@ main {
   flex: 1 1 auto;
   padding: 20px;
 }
+
+.button {
+  padding: 10px 15px;
+  font-weight: 700;
+  border: 1px solid var(--main-active-color);
+  background: white;
+  color: var(--main-active-color);
+  transition: background-color ease-out 0.2s, color ease-out 0.2s;
+}
+
+.button:hover,
+.button:active {
+  background: var(--main-active-color);
+  color: white;
+  transition: background-color ease-out 0.2s, color ease-out 0.2s;
+}

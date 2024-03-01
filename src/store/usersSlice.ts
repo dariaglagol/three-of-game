@@ -16,6 +16,7 @@ const initialState: UsersState = {
   users: [],
 };
 
+/* eslint-disable no-param-reassign */
 export const usersSlice = createSlice({
   name: 'users',
   initialState,
@@ -26,6 +27,7 @@ export const usersSlice = createSlice({
     },
   },
 });
+/* eslint-enable no-param-reassign */
 
 export const { setUsers } = usersSlice.actions;
 export const selectUsers = (state: RootState) => state.users;

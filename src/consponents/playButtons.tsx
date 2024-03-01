@@ -8,12 +8,12 @@ const PlayButtons = (props: any) => {
   const { onPlayBtnClick, disabled } = props;
 
   return (
-    <div className='button-wrapper'>
+    <div className='play-button-wrapper'>
       {USER_POSSIBLE_INPUTS.map((item) => (
           <button
             key={item}
             onClick={() => onPlayBtnClick(item)}
-            className="button"
+            className="play-button button"
             disabled={disabled}
           >
             {item}

@@ -16,6 +16,7 @@ const initialState: CounterState = {
   rooms: null,
 };
 
+/* eslint-disable no-param-reassign */
 export const counterSlice = createSlice({
   name: 'rooms',
   initialState,
@@ -26,6 +27,7 @@ export const counterSlice = createSlice({
     },
   },
 });
+/* eslint-enable no-param-reassign */
 
 export const { incrementByAmount } = counterSlice.actions;
 export const selectRooms = (state: RootState) => state.rooms;
